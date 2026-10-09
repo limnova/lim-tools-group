@@ -5,7 +5,7 @@
 ## 子仓库
 
 - [后端](https://github.com/limnova/lim-tools-server)：待初始化
-- [前端](https://github.com/limnova/lim-tools-web)：待初始化
+- [前端](https://github.com/limnova/lim-tools-web)：Vite + React 19 + Tailwind CSS v4
 
 ## 克隆
 
