@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "postgres": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--python",
+        "3.12",
+        "--with",
+        "mcp<2",
+        "postgres-mcp",
+        "--access-mode=restricted",
+        "postgresql://limtools_ro:${LIM_TOOLS_DB_RO_PASSWORD}@${LIM_TOOLS_DB_HOST:-127.0.0.1}:${LIM_TOOLS_DB_PORT:-5432}/${LIM_TOOLS_DB_NAME:-limtools}"
+      ]
+    }
+  }
+}

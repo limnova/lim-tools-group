@@ -12,3 +12,9 @@ Thumbs.db
 
 # Parent-level build output
 dist/
+
+# Machine-specific MCP endpoints and credentials; share .mcp.example.json instead.
+/.mcp.json
+/.codex/config.toml
+/.claude/settings.local.json
+__pycache__/

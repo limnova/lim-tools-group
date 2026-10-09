@@ -1,6 +1,7 @@
 """Check shared skill copies and relative Markdown file references."""
 
 from pathlib import Path
+import json
 import re
 import sys
 from urllib.parse import unquote
@@ -10,8 +11,24 @@ def check_skills(root: Path) -> list[str]:
     canonical = root / '.agents' / 'skills'
     compatibility = root / '.claude' / 'skills'
     errors = []
+    policy = json.loads((root / '.agents' / 'sync.json').read_text(encoding='utf-8'))
+    plugin_skills = policy['claude_plugin_skills']
+    plugins = json.loads((root / '.claude' / 'settings.json').read_text(encoding='utf-8')).get('enabledPlugins', {})
+    for skill, plugin in plugin_skills.items():
+        if not plugins.get(plugin):
+            errors.append(f'Claude plugin not enabled for {skill}: {plugin}')
+        if (compatibility / skill).exists():
+            errors.append(f'Duplicate Claude plugin skill: {skill}')
+    for file in sorted(canonical.rglob('*')):
+        if not file.is_file() or '__pycache__' in file.parts or '.git' in file.parts:
+            continue
+        relative = file.relative_to(canonical)
+        if relative.parts[0] in plugin_skills:
+            continue
+        if not (compatibility / relative).is_file():
+            errors.append(f'Missing Claude compatibility file: {relative}')
     for file in sorted(compatibility.rglob('*')):
-        if not file.is_file():
+        if not file.is_file() or '__pycache__' in file.parts or '.git' in file.parts:
             continue
         peer = canonical / file.relative_to(compatibility)
         if not peer.is_file():

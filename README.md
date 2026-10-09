@@ -38,9 +38,25 @@ git commit -m "chore: bump lim-tools-web, lim-tools-server to verified updates"
 ## 项目 skills
 
 `.agents/skills` 是项目技能的维护入口，`.claude/skills` 提供共享技能的兼容副本。
-公共技能修改后同步两处，再运行 `python scripts/check_skills.py` 检查一致性和入口引用。
+公共技能修改后运行 `python scripts/sync_agent_config.py --apply` 同步两处，
+再运行 `python scripts/check_skills.py` 检查一致性和入口引用。
 `frontend-design` 与 `skill-creator` 在 Claude 中由 `.claude/settings.json` 的插件提供，因此无须另复制一份。
 
 `golang-how-to` 和 `submodule-aggregate-workflow` 已针对项目做本地适配。
 更新上游 skills 时请检查差异并保留这些适配；`skills-lock.json` 保留导入来源信息。
 本次代码修复与技能建议见 [检查记录](docs/code-review.md)。
+
+## Claude / Codex 配置维护
+
+同步脚本需要 Python 3.11+，默认仅检查差异：
+
+```powershell
+python scripts/sync_agent_config.py --check
+python scripts/sync_agent_config.py --personal --check
+python scripts/sync_agent_config.py --personal --apply
+```
+
+`--personal` 包含用户目录的共享 MCP、skills 和规则。每次应用前自动备份，
+已有的客户端专属配置由各客户端管理。项目 MCP 以本机 `.mcp.json` 为源，
+生成 `.codex/config.toml`；两者均忽略提交，团队模板为 `.mcp.example.json`。
+首次配置、维护方向、恢复方式与验证范围见 [配置维护说明](docs/agent-config.md)。
