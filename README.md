@@ -7,6 +7,9 @@
 - [后端](https://github.com/limnova/lim-tools-server)：Go + Gin HTTP API 服务
 - [前端](https://github.com/limnova/lim-tools-web)：Vite + React 19 + Tailwind CSS v4
 
+在线表格第一阶段的功能范围、存储方案和评论 / 协作路线见 [实施方案](docs/spreadsheet-plan.md)。
+本地启动与浏览器验证见 [前端说明](lim-tools-web/README.md)，保存 API 见 [服务端说明](lim-tools-server/README.md)。
+
 ## 克隆
 
 首次克隆时同时初始化子模块：
