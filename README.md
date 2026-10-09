@@ -4,7 +4,7 @@
 
 ## 子仓库
 
-- [后端](https://github.com/limnova/lim-tools-server)：待初始化
+- [后端](https://github.com/limnova/lim-tools-server)：Go + Gin HTTP API 服务
 - [前端](https://github.com/limnova/lim-tools-web)：Vite + React 19 + Tailwind CSS v4
 
 ## 克隆
@@ -23,12 +23,24 @@ git submodule update --init --recursive
 
 ## 子模块日常操作
 
-父仓库记录的是两个子仓库的具体 commit。子仓库有更新后，在父仓库目录执行：
+父仓库记录的是两个子仓库的具体 commit。先在子仓库完成验证和本地提交，再在父仓库目录执行：
 
 ```bash
 git add lim-tools-server lim-tools-web
-git commit -m "chore: update submodules"
-git push
+git commit -m "chore: bump lim-tools-web, lim-tools-server to verified updates"
 ```
 
 这样可以保证每个父仓库版本都对应一组确定的前后端版本。
+
+需要推送时，先推子仓库，再在父仓库执行 `git push --recurse-submodules=check`，
+保证其他人能获取聚合仓库引用的所有子模块提交。
+
+## 项目 skills
+
+`.agents/skills` 是项目技能的维护入口，`.claude/skills` 提供共享技能的兼容副本。
+公共技能修改后同步两处，再运行 `python scripts/check_skills.py` 检查一致性和入口引用。
+`frontend-design` 与 `skill-creator` 在 Claude 中由 `.claude/settings.json` 的插件提供，因此无须另复制一份。
+
+`golang-how-to` 和 `submodule-aggregate-workflow` 已针对项目做本地适配。
+更新上游 skills 时请检查差异并保留这些适配；`skills-lock.json` 保留导入来源信息。
+本次代码修复与技能建议见 [检查记录](docs/code-review.md)。
