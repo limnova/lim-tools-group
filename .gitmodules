@@ -1,0 +1,6 @@
+[submodule "lim-tools-web"]
+	path = lim-tools-web
+	url = https://github.com/limnova/lim-tools-web.git
+[submodule "lim-tools-server"]
+	path = lim-tools-server
+	url = https://github.com/limnova/lim-tools-server.git

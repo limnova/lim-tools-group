@@ -1,0 +1,14 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.idea/
+.vscode/
+
+# Local environment and logs
+.env
+*.log
+
+# Parent-level build output
+dist/
