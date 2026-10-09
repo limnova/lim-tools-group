@@ -8,6 +8,5 @@
 - `.agents/skills` 为项目技能的维护入口；`.claude/skills` 保留共享技能的兼容副本。修改公共技能后运行 `python scripts/sync_agent_config.py --apply`，再运行 `python scripts/check_skills.py`；插件例外维护在 `.agents/sync.json`。
 - 整理本机 Claude/Codex 配置时，按 [配置维护说明](docs/agent-config.md) 操作；同步脚本默认只检查，`--personal` 才包含个人配置。
 
-需要 Kubernetes 日志上下文时，优先使用 MCP server `k8s-log-mcp`。
 需要查询 PostgreSQL 时，优先使用 MCP server `postgres`（只读，RESTRICTED 模式，连 `limtools` 库）。
 测试排错默认使用 namespace `portal`；只有用户明确要求或需要对比时才使用 `qa` 或 `auto`。

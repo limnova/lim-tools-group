@@ -64,13 +64,12 @@ Claude 使用 `.mcp.json` 的环境变量展开；Codex 通过 `scripts/run_mcp.
 ## 2026-10-09 本机整理结果
 
 - 19 个个人技能同步到 Claude；24 个项目兼容技能一致，另有 2 个 Claude 插件入口。
-- 全局规则合并 MongoDB 脚本约定、GitLab MCP 使用方式和 Kubernetes 日志/namespace 约定。
+- 全局规则合并 MongoDB 脚本约定、GitLab MCP 使用方式和测试 namespace 约定。
 - 共享个人 MCP 为 `tapd`、`gitlab`、`github`；项目 MCP 为 `postgres`。
 - 四个服务完成 MCP initialize 与 tools/list：分别返回 46、202、44、9 个工具。
   这验证启动和协议协商，不代表已验证每个远程 API 或数据库业务操作。
 - PostgreSQL 验证时仅向测试子进程加载现有 Windows 用户密码变量，没有查询业务数据。
-- 本机仍有两项环境状态需知悉：未找到 `k8s-log-mcp` 的有效定义；
-  CC Switch 数据库中的 MCP 启用标记与当前生效文件不同，且保留旧名 `glab`。
+- CC Switch 数据库中的 MCP 启用标记与当前生效文件不同，且保留旧名 `glab`。
   本次以客户端实际配置为准，未直接改写 CC Switch 私有数据库；若以后从 CC Switch 应用配置，
   应重新检查实际配置和同步结果，避免旧状态覆盖本次整理。
 
