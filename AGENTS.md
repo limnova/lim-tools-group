@@ -9,4 +9,3 @@
 - 整理本机 Claude/Codex 配置时，按 [配置维护说明](docs/agent-config.md) 操作；同步脚本默认只检查，`--personal` 才包含个人配置。
 
 需要查询 PostgreSQL 时，优先使用 MCP server `postgres`（只读，RESTRICTED 模式，连 `limtools` 库）。
-测试排错默认使用 namespace `portal`；只有用户明确要求或需要对比时才使用 `qa` 或 `auto`。

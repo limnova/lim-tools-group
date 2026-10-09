@@ -64,7 +64,7 @@ Claude 使用 `.mcp.json` 的环境变量展开；Codex 通过 `scripts/run_mcp.
 ## 2026-10-09 本机整理结果
 
 - 19 个个人技能同步到 Claude；24 个项目兼容技能一致，另有 2 个 Claude 插件入口。
-- 全局规则合并 MongoDB 脚本约定、GitLab MCP 使用方式和测试 namespace 约定。
+- 全局规则合并 MongoDB 脚本约定和 GitLab MCP 使用方式。
 - 共享个人 MCP 为 `tapd`、`gitlab`、`github`；项目 MCP 为 `postgres`。
 - 四个服务完成 MCP initialize 与 tools/list：分别返回 46、202、44、9 个工具。
   这验证启动和协议协商，不代表已验证每个远程 API 或数据库业务操作。
