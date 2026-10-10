@@ -73,6 +73,19 @@ Claude 使用 `.mcp.json` 的环境变量展开；Codex 通过 `scripts/run_mcp.
   本次以客户端实际配置为准，未直接改写 CC Switch 私有数据库；若以后从 CC Switch 应用配置，
   应重新检查实际配置和同步结果，避免旧状态覆盖本次整理。
 
+## 2026-10-10 新增 antd MCP
+
+- 个人 MCP 增加第五项 `antd`，来源为 `@ant-design/cli` 自带的 `antd mcp`
+  （v6.3.5+ 起提供，返回 8 个工具与 2 个提示词）；全局 CLI 同步升到 6.6.5。
+- `antd` skill 早已存在于个人技能，走同样的 `~/.codex` → `~/.claude` 方向，本次只补 MCP。
+- **命令用绝对路径而非 `npx`**：Windows 上 Node 不再允许不带 shell 直接启动 `.cmd`/`.ps1`，
+  裸 `npx` 会 ENOENT；另外本机 Node 由 fnm 管理，`fnm_multishells\<id>_<ts>\node.exe` 是
+  每会话临时路径，不可固化。因此改用稳定的 `D:\env\fnm\aliases\default\node.exe`
+  （fnm `default` 别名，升级 Node 后自动指向新版本）加 CLI 的 `dist/index.js`。
+- 实测 `initialize` 返回 `antd` 6.6.5，`tools/list` 8 项、`prompts/list` 2 项，
+  `tools/call antd_info(Button)` 正常返回。这验证启动与协议协商，不代表已验证全部组件元数据。
+- 升级 Node 主版本或更改 CLI 全局安装位置后，需重新同步并复测。
+
 官方格式说明：[Codex MCP](https://developers.openai.com/codex/mcp)、
 [Claude MCP](https://code.claude.com/docs/en/mcp)、
 [Claude 共享项目规则](https://code.claude.com/docs/en/memory#share-one-file-with-other-coding-tools)。

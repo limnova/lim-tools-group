@@ -1,5 +1,5 @@
 {
-  "personal_mcp_servers": ["tapd", "gitlab", "github"],
+  "personal_mcp_servers": ["tapd", "gitlab", "github", "antd"],
   "claude_plugin_skills": {
     "frontend-design": "frontend-design@claude-plugins-official",
     "skill-creator": "skill-creator@claude-plugins-official"
