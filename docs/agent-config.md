@@ -75,7 +75,7 @@ Claude 使用 `.mcp.json` 的环境变量展开；Codex 通过 `scripts/run_mcp.
 
 ## 2026-10-10 新增 antd MCP
 
-- 个人 MCP 增加第五项 `antd`，来源为 `@ant-design/cli` 自带的 `antd mcp`
+- 个人共享 MCP 增加第四项 `antd`，来源为 `@ant-design/cli` 自带的 `antd mcp`
   （v6.3.5+ 起提供，返回 8 个工具与 2 个提示词）；全局 CLI 同步升到 6.6.5。
 - `antd` skill 早已存在于个人技能，走同样的 `~/.codex` → `~/.claude` 方向，本次只补 MCP。
 - **命令用绝对路径而非 `npx`**：Windows 上 Node 不再允许不带 shell 直接启动 `.cmd`/`.ps1`，
@@ -85,6 +85,39 @@ Claude 使用 `.mcp.json` 的环境变量展开；Codex 通过 `scripts/run_mcp.
 - 实测 `initialize` 返回 `antd` 6.6.5，`tools/list` 8 项、`prompts/list` 2 项，
   `tools/call antd_info(Button)` 正常返回。这验证启动与协议协商，不代表已验证全部组件元数据。
 - 升级 Node 主版本或更改 CLI 全局安装位置后，需重新同步并复测。
+
+## antd 版本与技能维护
+
+涉及 antd 时使用项目 [.agents/skills/antd/SKILL.md](../.agents/skills/antd/SKILL.md)。
+项目与个人技能均直接复用已安装 `@ant-design/cli/skills/antd/SKILL.md` 的官方原文，
+项目技能可独立供团队使用；入口与版本约定放在 AGENTS.md，本机接入细节维护在本说明。
+官方 skill 随 CLI 发布，升级 CLI 后先比较随包文件，再更新维护源并同步 Claude 副本。
+
+项目 `.mcp.json` 的 `antd` 启动参数显式指定前端组件库版本与中文文档；同步到
+`.codex/config.toml` 后，项目配置覆盖同名个人 MCP。个人 MCP 保留自动检测，适配其他项目；
+从不含 antd 依赖的目录启动时，CLI 使用内置数据集回退，因此查询其他项目时需核对版本，
+必要时用 CLI `--version <实际版本>` 查询。MCP 组件查询工具本身没有版本参数。
+
+更新前端依赖后，从 `lim-tools-web/node_modules/antd/package.json` 核对实际安装版本，
+未安装时读取锁文件；随后更新 `.mcp.json` 中 `antd.args` 的 `--version` 值，执行：
+
+```powershell
+python scripts/sync_agent_config.py --personal --apply
+python scripts/sync_agent_config.py --personal --check
+python scripts/check_skills.py
+```
+
+`antd setup --client codex` 仅安装项目 skill 与指令，不配置 Codex MCP；本仓库继续使用上述同步流程。
+Windows 首次检查 CLI 用 `Get-Command antd`；官方 skill 的 `which antd` 示例适用于 POSIX shell。
+本机 stdio MCP 继续使用稳定 Node 路径加 CLI JS 入口，用 `npm root -g` 定位全局包，
+避免固化 fnm 每会话的 `fnm_multishells` 路径；配置文件里的绝对路径不提交。
+MCP 提供组件知识查询；`env`、`doctor`、`usage`、`lint` 和 `migrate` 使用 CLI。
+配置验证覆盖 `initialize`、`tools/list`、`prompts/list` 与一次只读组件查询。
+MCP 重启前仍使用启动时的版本与语言；新会话或重启客户端后检查实际加载结果。
+
+2026-10-12 核对：前端实际安装的 `antd`、全局 `@ant-design/cli` 与 npm `latest` 均为 `6.6.5`，
+本次只维护 agent 配置与技能。已安装 CLI 源码的无依赖回退会选内置最高主版本（当前 v6）；
+官方 README 仍写回退 `5.24.0`，以已安装程序与显式版本参数为准。
 
 官方格式说明：[Codex MCP](https://developers.openai.com/codex/mcp)、
 [Claude MCP](https://code.claude.com/docs/en/mcp)、
